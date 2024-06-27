@@ -1,0 +1,5 @@
+Application for analyzing and displaying time series.
+_______________________________________________________
+PLEASE USE DEVELOPMENT BRANCH FOR TEST/ADD NEW FEATURES
+DO NOT MERGE WITHOUT PERMISSION
+_______________________________________________________
