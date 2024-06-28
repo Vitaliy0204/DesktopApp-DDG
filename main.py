@@ -21,7 +21,7 @@ padX = 5
 padY = 5
 
 root = customtkinter.CTk()
-root.wm_iconbitmap('AppLogo.ico')
+# root.wm_iconbitmap('AppLogo.ico')
 root.geometry("1280x780")
 root.title("DDG GRIN-TEX APP")
 
@@ -325,8 +325,8 @@ def graph_range():
         canvas.draw()
 
 def save_interval_csv():
-    saveFileName = filedialog.asksaveasfilename(initialfile="DDG_data_" + datetime.strftime(datetime.now(), '%d-%m-%Y'),
-                                                )
+    saveFileName = filedialog.asksaveasfilename(initialfile="DDG_data_" + datetime.strftime(datetime.now(), '%d-%m-%Y') + "csv", 
+                                                filetypes=[('Text Files', '*.csv'), ('All Files', '*.*')])
     saveFile = open(saveFileName, "w")
     for i in range(interval_from, interval_to, 1):
         saveFile.write(str(coordsX[i]) + '\n')
