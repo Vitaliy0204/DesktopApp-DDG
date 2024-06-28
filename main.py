@@ -21,7 +21,7 @@ padX = 5
 padY = 5
 
 root = customtkinter.CTk()
-root.wm_iconbitmap('AppLogo.ico')
+# root.wm_iconbitmap('AppLogo.ico')
 root.geometry("1280x780")
 root.title("DDG GRIN-TEX APP")
 
@@ -102,8 +102,18 @@ btn_save_file = customtkinter.CTkButton(master=range_frame, text="Сохрани
 btn_save_file.pack(after=btn_set_range,padx=padX, pady=padY, side=BOTTOM)
 
 # ________________________________FILTERS___________________________________
-but_avg = customtkinter.CTkButton(master=root, text="Скользящее среднее")
-but_avg.pack(padx=padX, pady=padY)
+filter_frame = customtkinter.CTkFrame(master=root)
+filter_frame.pack(padx=padX, pady=padY, after=range_frame, side=LEFT)
+
+filter_slider = customtkinter.CTkSlider(master=filter_frame, from_=100, to=1000, number_of_steps=9)
+filter_slider.pack(padx=padX, pady=padY, side=TOP)
+
+filter_label = customtkinter.CTkLabel(master=filter_frame, text="500")
+filter_label.pack(padx=padX, pady=padY, after=filter_slider)
+
+but_avg = customtkinter.CTkButton(master=filter_frame, text="Скользящее среднее")
+but_avg.pack(padx=padX, pady=padY, side=BOTTOM, after=filter_label)
+
 # _______________________________MAIN_DATA___________________________________
 
 info_frame = customtkinter.CTkFrame(master=root)
@@ -315,8 +325,8 @@ def graph_range():
         canvas.draw()
 
 def save_interval_csv():
-    saveFileName = filedialog.asksaveasfilename(initialfile="DDG_data_" + datetime.strftime(datetime.now(), '%d-%m-%Y'),
-                                                )
+    saveFileName = filedialog.asksaveasfilename(initialfile="DDG_data_" + datetime.strftime(datetime.now(), '%d-%m-%Y') + "csv", 
+                                                filetypes=[('Text Files', '*.csv'), ('All Files', '*.*')])
     saveFile = open(saveFileName, "w")
     for i in range(interval_from, interval_to, 1):
         saveFile.write(str(coordsX[i]) + '\n')
@@ -329,12 +339,44 @@ def clear_plot():
     ax.tick_params(labelcolor='white')
     canvas.draw()
 
+def f_slider_callback(value):
+    slider_value = int(value)
+    filter_label.configure(text=str(slider_value))
+
+def avg():
+    clear_plot()
+    print_plot()
+    k = int(filter_label.cget("text"))
+    print("points", k)
+    coordsYk = arr.array('f')
+    for i in range(0, k // 2):                                      # 0 , 1
+        coordsYk.append(coordsY[k // 2])
+    for i in range(k // 2 , len(coordsY) - k // 2):                 # 2 , 20 - 2 - 1
+        sum = 0
+        for j in range(i - k // 2, i + k // 2):                 
+            sum += coordsY[j]
+        coordsYk.append(sum / k) 
+    for i in range(len(coordsY) - k // 2, len(coordsY)):            # 18, 19
+        coordsYk.append(coordsY[len(coordsY) - k // 2]) 
+
+    ax.set_facecolor("#242424")
+    ax.plot(coordsX, coordsYk, linewidth=2, markersize=2, markerfacecolor='white', 
+        label=useFilePath)
+    ax.grid(color='white', linewidth=0.4)
+    ax.legend(fontsize=12)
+    ax.tick_params(labelcolor='white')
+    print(ax.get_children())
+    canvas.draw()
+
+
 btn.configure(command=click_file_path)
 but_print_plot.configure(command=print_plot)
 but_avg.configure(command=avg)
 btn_set_range.configure(command=graph_range)
 btn_save_file.configure(command=save_interval_csv)
 but_clear.configure(command=clear_plot)
+
+filter_slider.configure(command=f_slider_callback)
 print_plot()
 root.mainloop()
 
