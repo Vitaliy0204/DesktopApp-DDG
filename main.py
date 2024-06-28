@@ -343,7 +343,8 @@ def f_slider_callback(value):
     slider_value = int(value)
     filter_label.configure(text=str(slider_value))
 
-def avg():    #TODO: DELETE LAST PLOT BEFORE PRINT NEW
+def avg():
+    print("Hello")
     clear_plot()
     print_plot()
     k = int(filter_label.cget("text"))
