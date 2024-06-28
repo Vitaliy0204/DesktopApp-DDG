@@ -14,13 +14,14 @@ from datetime import datetime
 
 customtkinter.set_ctk_parent_class(tkinter.Tk)
 
-customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
-customtkinter.set_default_color_theme("green")  # Themes: "blue" (standard), "green", "dark-blue"
+customtkinter.set_appearance_mode("Light")  # Modes: "System" (standard), "Dark", "Light"
+customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
 
 padX = 5
 padY = 5
 
 root = customtkinter.CTk()
+root.wm_iconbitmap('AppLogo.ico')
 root.geometry("1280x780")
 root.title("DDG GRIN-TEX APP")
 
