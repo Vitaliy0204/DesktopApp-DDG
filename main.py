@@ -345,6 +345,7 @@ def f_slider_callback(value):
 
 def avg():
     print("Hello")
+    print("world")
     clear_plot()
     print_plot()
     k = int(filter_label.cget("text"))
