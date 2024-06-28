@@ -343,7 +343,7 @@ def f_slider_callback(value):
     slider_value = int(value)
     filter_label.configure(text=str(slider_value))
 
-def avg():
+def avg():    #TODO: DELETE LAST PLOT BEFORE PRINT NEW
     clear_plot()
     print_plot()
     k = int(filter_label.cget("text"))
@@ -369,7 +369,7 @@ def avg():
     canvas.draw()
 
 
-btn.configure(command=click_file_path)
+btn.configure(command=click_file_path) 
 but_print_plot.configure(command=print_plot)
 but_avg.configure(command=avg)
 btn_set_range.configure(command=graph_range)
