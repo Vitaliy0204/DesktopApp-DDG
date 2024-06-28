@@ -367,6 +367,7 @@ def avg():    #TODO: DELETE LAST PLOT BEFORE PRINT NEW
     ax.tick_params(labelcolor='white')
     print(ax.get_children())
     canvas.draw()
+    print("Жопа")
 
 
 btn.configure(command=click_file_path) 
