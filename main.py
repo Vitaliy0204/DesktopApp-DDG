@@ -233,7 +233,7 @@ def open_file_with_calibr():
     name = useFilePath[0:len(useFilePath)-4]
     name +=".csv"
     f = open(name, "w")
-    for i in range(0, len(bytes), 4):
+    for i in range(6, len(bytes), 4):
 
         if (bytes[i] & 0b10000000) == 0x10000000 :
             dec = bytes[i] << 16
@@ -241,7 +241,7 @@ def open_file_with_calibr():
             dec = dec ^ 0xffffff
         else:
             dec = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
-            dec = dec >> 6
+            dec = dec
         count = count + 1
         dec = dec / calibr
         coordsY.append(dec)
@@ -250,7 +250,7 @@ def open_file_with_calibr():
         if dec < min_point: min_point = dec
 
         f.write(str(int(dec)) +'\n')
-        if count % 15 == 0:
+        if count % 3.75 == 0:
             coordsX.append(int(count /15))
         else:
             coordsX.append(coordsX[len(coordsX)-1] + 0.06)
@@ -274,7 +274,7 @@ def print_plot():
         if enabled.get() != True:
             ax.clear()
     ax.set_facecolor("#242424")
-    ax.plot(coordsX, coordsY, linewidth=2, markersize=2, markerfacecolor='white', 
+    ax.plot(coordsX, coordsY, linewidth=1.5, markersize=2, markerfacecolor='white', 
         label=useFilePath)
     ax.grid(color='white', linewidth=0.4)
     ax.legend(fontsize=12)
@@ -296,7 +296,7 @@ def graph_range():
         range_f = float(input_range_from.get())
         range_t = float(input_range_to.get())
     except ValueError:
-        showinfo(title="Error", message="Недопустимый симмвол")
+        showinfo(title="Error", message="Недопустимый символ")
         input_range_from.delete(0,END)
         input_range_from.insert(0,int(coordsX[0]))
 
@@ -361,7 +361,7 @@ def avg():
         coordsYk.append(coordsY[len(coordsY) - k // 2]) 
 
     ax.set_facecolor("#242424")
-    ax.plot(coordsX, coordsYk, linewidth=2, markersize=2, markerfacecolor='white', 
+    ax.plot(coordsX, coordsYk, linewidth=1.5, markersize=1, markerfacecolor='white', 
         label=useFilePath)
     ax.grid(color='white', linewidth=0.4)
     ax.legend(fontsize=12)
